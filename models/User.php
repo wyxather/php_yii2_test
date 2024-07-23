@@ -9,6 +9,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
+    public $role;
 
     private static $users = [
         '100' => [
@@ -16,14 +17,16 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'username' => 'admin',
             'password' => 'admin',
             'authKey' => 'test100key',
-            'accessToken' => '100-token'
+            'accessToken' => '100-token',
+            'role' => 'admin',
         ],
         '101' => [
             'id' => '101',
             'username' => 'doctor',
             'password' => 'doctor',
             'authKey' => 'test101key',
-            'accessToken' => '101-token'
+            'accessToken' => '101-token',
+            'role' => 'doctor',
         ],
     ];
 
@@ -81,6 +84,14 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public function getAuthKey()
     {
         return $this->authKey;
+    }
+
+        /**
+     * {@inheritdoc}
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**

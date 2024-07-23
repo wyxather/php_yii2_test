@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Transaction;
 use app\models\TransactionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -21,6 +23,25 @@ class TransactionController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['index'],
+                    'rules' => [
+                        [
+                            'actions' => ['index'],
+                            'allow' => false,
+                            'roles' => ['?'],
+                        ],
+                        [
+                            'actions' => ['index'],
+                            'allow' => true,
+                            'matchCallback' => function($rule, $action) {
+                                return !Yii::$app->getUser()->isGuest && Yii::$app->getUser()->identity->getRole() === "admin";
+                            },
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

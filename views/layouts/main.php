@@ -39,9 +39,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Home', 'url' => ['/site/index']] ,
+            !Yii::$app->user->isGuest ? ['label' => 'Patient', 'url' => ['/patient']] : '',
+            !Yii::$app->user->isGuest ? ['label' => 'Medicine', 'url' => ['/medicine']] : '',
+            !Yii::$app->user->isGuest ? ['label' => 'Action', 'url' => ['/action']] : '',
+            !Yii::$app->user->isGuest && Yii::$app->user->identity->getRole() === 'admin' ? ['label' => 'Transaction', 'url' => ['/transaction']] : '',
+            !Yii::$app->user->isGuest && Yii::$app->user->identity->getRole() === 'admin' ? ['label' => 'Employees', 'url' => ['/Employees']] : '',
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
